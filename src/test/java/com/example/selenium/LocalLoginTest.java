@@ -1,4 +1,5 @@
 package com.example.selenium;
+
 import java.io.File;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,12 +23,9 @@ public class LocalLoginTest {
 
         driver = new ChromeDriver(options);
 
-        String page = new File("webpage/login.html")
-                .getAbsoluteFile()
-                .toURI()
-                .toString();
-
-        driver.get(page);
+        // Dynamically resolve path using project root so CI/CD runners can locate the file
+        File htmlFile = new File(System.getProperty("user.dir") + "/webpage/login.html");
+        driver.get(htmlFile.toURI().toString());
     }
 
     @Test
