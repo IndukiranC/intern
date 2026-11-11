@@ -23,8 +23,12 @@ public class LocalLoginTest {
 
         driver = new ChromeDriver(options);
 
-        // Dynamically resolve path using project root so CI/CD runners can locate the file
+        // Uses System.getProperty("user.dir") so Linux runner locates webpage/login.html
         File htmlFile = new File(System.getProperty("user.dir") + "/webpage/login.html");
+        
+        // Print the resolved path in runner logs for verification
+        System.out.println("Loading Page URL: " + htmlFile.toURI().toString());
+        
         driver.get(htmlFile.toURI().toString());
     }
 
@@ -35,6 +39,7 @@ public class LocalLoginTest {
         driver.findElement(By.id("loginButton")).click();
 
         String message = driver.findElement(By.id("message")).getText();
+        System.out.println("Message: " + message);
         Assert.assertEquals(message, "Login Successful");
     }
 
@@ -45,12 +50,14 @@ public class LocalLoginTest {
         driver.findElement(By.id("loginButton")).click();
 
         String message = driver.findElement(By.id("message")).getText();
+        System.out.println("Message: " + message);
         Assert.assertEquals(message, "Invalid Username or Password");
     }
 
     @Test
     public void checkBackgroundColor() {
         String bgColor = driver.findElement(By.id("loginBox")).getCssValue("background-color");
+        System.out.println("Background Color: " + bgColor);
         Assert.assertEquals(bgColor, "rgba(173, 216, 230, 1)");
     }
 
